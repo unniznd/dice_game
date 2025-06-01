@@ -1,0 +1,38 @@
+
+# Foundry artifacts and cache
+artifacts/
+cache/
+out/
+broadcast/
+lib/
+
+# Foundry test logs
+logs/
+
+# Node dependencies (if using npm or yarn)
+node_modules/
+
+# dotenv environment variables
+.env
+.env.*
+
+# VSCode settings
+.vscode/
+
+# MacOS metadata
+.DS_Store
+
+# Rust specific (if using custom bindings or build scripts)
+target/
+Cargo.lock
+
+# Hardhat compatibility files (optional)
+typechain/
+typechain-types/
+
+# Forge coverage reports
+coverage/
+
+# Ignore any temp files or editor swap files
+*.swp
+*~

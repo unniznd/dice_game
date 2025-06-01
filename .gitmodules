@@ -1,6 +1,0 @@
-[submodule "dice_game_contract/lib/forge-std"]
-	path = dice_game_contract/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
-[submodule "lib/chainlink"]
-	path = lib/chainlink
-	url = https://github.com/smartcontractkit/chainlink
