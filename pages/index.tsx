@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import MainScreen from '../components/MainScreen';
+import GameScreen from '../components/GameScreen';
+import HistoryBoard from '../components/HistoryBoard';
+import HistoryPopup from '../components/HistoryPopup';
 import { usePrivy } from '@privy-io/react-auth';
 import Image from 'next/image';
-import MainScreen from '@/components/MainScreen';
-import HistoryBoard from '@/components/HistoryBoard';
-import HistoryPopup from '@/components/HistoryPopup';
 
 const Home: React.FC = () => {
   const { ready, authenticated } = usePrivy();
@@ -32,9 +33,9 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
-      {/* Main Screen (75% on desktop) */}
-      <div className="lg:w-3/4 w-full p-4 flex items-center justify-center">
-        <MainScreen />
+      {/* Main/Game Screen (75% on desktop) */}
+      <div className="lg:w-3/4 w-full p-4 flex items-center justify-center relative">
+        {authenticated ? <GameScreen /> : <MainScreen />}
       </div>
       {/* History Board (25% on desktop, hidden on mobile) */}
       <div className="lg:w-1/4 w-full p-4 hidden lg:block">
@@ -42,10 +43,11 @@ const Home: React.FC = () => {
       </div>
       {/* Floating Action Button for Mobile */}
       <button
-        className="lg:hidden fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition"
+        className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
         onClick={() => setIsHistoryOpen(true)}
+        aria-label="Open History"
       >
-        History
+        {String.fromCodePoint(0x1f4dc)}
       </button>
       {/* History Popup for Mobile */}
       {isHistoryOpen && (
