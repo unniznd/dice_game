@@ -5,6 +5,7 @@ import HistoryBoard from '../components/HistoryBoard';
 import HistoryPopup from '../components/HistoryPopup';
 import { usePrivy } from '@privy-io/react-auth';
 import Image from 'next/image';
+import { ToastContainer } from 'react-toastify';
 
 const Home: React.FC = () => {
   const { ready, authenticated } = usePrivy();
@@ -53,6 +54,7 @@ const Home: React.FC = () => {
       {isHistoryOpen && (
         <HistoryPopup history={history} onClose={() => setIsHistoryOpen(false)} />
       )}
+      <ToastContainer/>
     </div>
   );
 };

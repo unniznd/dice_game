@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@privy-io/react-auth": "^2.13.6",
+    "ethers": "^6.14.3",
     "next": "15.3.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
