@@ -53,6 +53,7 @@ Roll the dice and win!
 
 7. To run the subgraph, navigate to the `dice-game-subgraph` directory and run:
    ```bash
+   yarn install
    graph codegen
    graph build
    graph deploy --product hosted-service <YOUR_SUBGRAPH_NAME>
