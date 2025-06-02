@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "DiceBet": {
+      "address": "0x207E83dDe78e15c3e697dbCbEF214a9bB156b1Dd",
+      "startBlock": 8459658
+    }
+  }
+}
