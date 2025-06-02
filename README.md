@@ -2,7 +2,9 @@
 
 Roll the dice and win!
 
-[Live Demo](https://dice-game-sooty-two.vercel.app/)
+[Live](https://dice-game-sooty-two.vercel.app/)
+
+[Demo](https://drive.google.com/file/d/1U4TVHwqiw6koqk126_-kTCgFY672u5aV/view?usp=sharing)
 
 ## Features
 
