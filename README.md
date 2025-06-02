@@ -1,40 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Onchain Dice Game
 
-## Getting Started
+Roll the dice and win!
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Roll a dice on the blockchain
+- Fair and transparent game mechanics
+- Bet 0.01 ETH to play
+- Win 1.5x your bet if you win the bet
+- Uses Chainlink VRF for provably fair randomness
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Solidity for smart contract development
+- Foundry for testing and deployment
+- Chainlink VRF for randomness
+- Next.js for the frontend
+- Tailwind CSS for styling
+- Ethers.js for blockchain interactions
+- Subgraph for indexing blockchain data
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Installation
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/unniznd/dice_game.git
+    cd dice_game
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables:
+   Create a `.env` file in the root directory and add your environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   NEXT_PUBLIC_PRIVY_APP_ID=your_privy_app_id
+   GRAPH_API_KEY=your_graph_api_key
+   ```
 
-## Learn More
+4. Navigate to the `dice_game_contract` directory and run the following command to compile the smart contracts:
+   ```bash
+   forge install
+   forge test
+   forge build
+   ```
+5. Deploy the smart contracts to the desired network (e.g., Sepolia):
+   ```bash
+   forge script script/Deploy.s.sol --rpc-url <YOUR_RPC_URL> --broadcast
+   ```
+6. Make sure to fund your wallet with test ETH for the Sepolia network to interact with the smart contract.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+7. To run the subgraph, navigate to the `dice-game-subgraph` directory and run:
+   ```bash
+   graph codegen
+   graph build
+   graph deploy --product hosted-service <YOUR_SUBGRAPH_NAME>
+   ```
+8. Make sure to replace `<YOUR_SUBGRAPH_NAME>` with your actual subgraph name.
+9. Make sure to replace contract addresses in the frontend with the deployed contract address in `utils/constants.tsx`.
+10. To run the frontend, navigate back to the root directory and run:
+    ```bash
+    npm run dev
+    ```
