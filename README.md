@@ -2,6 +2,8 @@
 
 Roll the dice and win!
 
+[Live Demo](https://dice-game-sooty-two.vercel.app/)
+
 ## Features
 
 - Roll a dice on the blockchain
