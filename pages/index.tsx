@@ -6,7 +6,7 @@ import HistoryPopup from '../components/HistoryPopup';
 import { usePrivy } from '@privy-io/react-auth';
 import Image from 'next/image';
 import { ToastContainer } from 'react-toastify';
-import { dehydrate, HydrationBoundary, QueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql, request } from 'graphql-request';
 
 const Home: React.FC = () => {
@@ -28,13 +28,19 @@ const Home: React.FC = () => {
   const GRAPH_API_KEY = process.env.GRAPH_API_KEY!;
   const headers = { Authorization: `Bearer ${GRAPH_API_KEY}` };
 
-  const { data, isLoading, error } = useQuery({
+  // Function to truncate address
+  const truncateAddress = (address: string) => {
+    if (!address) return '';
+    return `${address.slice(0, 5)}...${address.slice(-3)}`;
+  };
+
+  const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ['diceHistory'],
     queryFn: async () => {
       const response = await request(url, query, {}, headers) as any;
       return response.diceLandeds.map((item: any) => ({
         id: item.id,
-        address: item.roller,
+        address: truncateAddress(item.roller),
         won: item.rollNumber === item.result
       }));
     }
@@ -72,12 +78,11 @@ const Home: React.FC = () => {
       </div>
       {/* History Board (25% on desktop, hidden on mobile) */}
       <div className="lg:w-1/4 w-full p-4 hidden lg:block">
-        <HistoryBoard history={history} />
+        <HistoryBoard history={history} onRefresh={refetch} isLoading={isFetching} />
       </div>
       {/* Floating Action Button for Mobile */}
       <button
-        className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-4
-00"
+        className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
         onClick={() => setIsHistoryOpen(true)}
         aria-label="Open History"
       >
@@ -85,7 +90,12 @@ const Home: React.FC = () => {
       </button>
       {/* History Popup for Mobile */}
       {isHistoryOpen && (
-        <HistoryPopup history={history} onClose={() => setIsHistoryOpen(false)} />
+        <HistoryPopup 
+          history={history} 
+          onClose={() => setIsHistoryOpen(false)} 
+          onRefresh={refetch} 
+          isLoading={isFetching} 
+        />
       )}
       <ToastContainer />
     </div>

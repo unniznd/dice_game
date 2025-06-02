@@ -8,10 +8,12 @@ interface HistoryItem {
 
 interface HistoryPopupProps {
   history: HistoryItem[];
+  onRefresh: () => void;
   onClose: () => void;
+  isLoading: boolean;
 }
 
-const HistoryPopup: React.FC<HistoryPopupProps> = ({ history, onClose }) => {
+const HistoryPopup: React.FC<HistoryPopupProps> = ({ history, onClose, onRefresh, isLoading }) => {
   return (
     <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-xl shadow-lg w-11/12 max-w-md fade-in relative">
@@ -24,7 +26,7 @@ const HistoryPopup: React.FC<HistoryPopupProps> = ({ history, onClose }) => {
             ✕
           </button>
         </div>
-        <HistoryBoard history={history} />
+        <HistoryBoard history={history} onRefresh={onRefresh} isLoading={isLoading} />
       </div>
     </div>
 

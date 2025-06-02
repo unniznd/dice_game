@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-import {VRFConsumerBaseV2Plus} from "chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
-import {VRFV2PlusClient} from "chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
+import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
+import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
 contract DiceBet is VRFConsumerBaseV2Plus {
     // VRF Configuration
@@ -10,7 +10,7 @@ contract DiceBet is VRFConsumerBaseV2Plus {
     address public vrfCoordinator = 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B;
     bytes32 public s_keyHash =
         0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae;
-    uint32 public callbackGasLimit = 40000;
+    uint32 public callbackGasLimit = 80000;
     uint16 public requestConfirmations = 3;
     uint32 public numWords = 1;
 
@@ -95,7 +95,7 @@ contract DiceBet is VRFConsumerBaseV2Plus {
         }
 
         emit DiceLanded({
-            roller: msg.sender,
+            roller: s_requestIdToRoller[requestId],
             rollNumber: _rollNumber,
             result: d6Value
         });
