@@ -8,9 +8,9 @@ dataSources:
     name: DiceBet
     network: sepolia
     source:
-      address: "0x207E83dDe78e15c3e697dbCbEF214a9bB156b1Dd"
+      address: "0x3e8D0Bf20137b47Fcf678fE35BF3D0Dd081a0EaE"
       abi: DiceBet
-      startBlock: 8459658
+      startBlock: 8460034
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9

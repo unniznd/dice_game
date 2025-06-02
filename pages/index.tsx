@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainScreen from '../components/MainScreen';
 import GameScreen from '../components/GameScreen';
 import HistoryBoard from '../components/HistoryBoard';
@@ -6,19 +6,47 @@ import HistoryPopup from '../components/HistoryPopup';
 import { usePrivy } from '@privy-io/react-auth';
 import Image from 'next/image';
 import { ToastContainer } from 'react-toastify';
+import { dehydrate, HydrationBoundary, QueryClient, useQuery } from '@tanstack/react-query';
+import { gql, request } from 'graphql-request';
 
 const Home: React.FC = () => {
   const { ready, authenticated } = usePrivy();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [history, setHistory] = useState([]);
 
-  // Sample history data (replace with real data in production)
-  const history = [
-    { id: 1, address: '0x123...456', won: true },
-    { id: 2, address: '0x789...012', won: false },
-    { id: 3, address: '0x345...678', won: true },
-  ];
+  const query = gql`
+    {
+      diceLandeds(first: 5) {
+        id
+        roller
+        rollNumber
+        result
+      }
+    }
+  `;
+  const url = 'https://api.studio.thegraph.com/query/112932/dice-game-subgraph/version/latest';
+  const GRAPH_API_KEY = process.env.GRAPH_API_KEY!;
+  const headers = { Authorization: `Bearer ${GRAPH_API_KEY}` };
 
-  if (!ready) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['diceHistory'],
+    queryFn: async () => {
+      const response = await request(url, query, {}, headers) as any;
+      return response.diceLandeds.map((item: any) => ({
+        id: item.id,
+        address: item.roller,
+        won: item.rollNumber === item.result
+      }));
+    }
+  });
+
+  useEffect(() => {
+    if (data) {
+      setHistory(data);
+    }
+  }, [data]);
+
+  if (!ready || isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <Image
@@ -30,6 +58,10 @@ const Home: React.FC = () => {
         />
       </div>
     );
+  }
+
+  if (error) {
+    console.error('Error fetching history:', error);
   }
 
   return (
@@ -44,7 +76,8 @@ const Home: React.FC = () => {
       </div>
       {/* Floating Action Button for Mobile */}
       <button
-        className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-4
+00"
         onClick={() => setIsHistoryOpen(true)}
         aria-label="Open History"
       >
@@ -54,7 +87,7 @@ const Home: React.FC = () => {
       {isHistoryOpen && (
         <HistoryPopup history={history} onClose={() => setIsHistoryOpen(false)} />
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
