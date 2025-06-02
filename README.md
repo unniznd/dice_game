@@ -20,6 +20,7 @@ Roll the dice and win!
 - Next.js for the frontend
 - Tailwind CSS for styling
 - Ethers.js for blockchain interactions
+- Privy for user authentication
 - Subgraph for indexing blockchain data
 
 ## Installation
